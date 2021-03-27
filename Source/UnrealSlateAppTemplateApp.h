@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ISlateReflectorModule.h"
-#include "UnrealSlateAppTemplate.h"
+#include "StandaloneRenderer.h"
 #include "Widgets/Docking/SDockTab.h"
 
 

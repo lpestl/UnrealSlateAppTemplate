@@ -11,6 +11,7 @@
 #include "IWebBrowserWindow.h"
 #include "IWebBrowserPopupFeatures.h"
 #include "ModuleManager.h"
+#include "UnrealSlateAppTemplateModule/Public/UnrealSlateAppTemplateModule.h"
 
 IMPLEMENT_APPLICATION(UnrealSlateAppTemplate, "UnrealSlateAppTemplate");
 
@@ -66,6 +67,8 @@ int RunUnrealSlateAppTemplate( const TCHAR* CommandLine )
 		RestoreSlateTestSuite();
 	}
 
+	FUnrealSlateAppTemplateModule& UnrealSlateAppTemplateModule = FModuleManager::LoadModuleChecked<FUnrealSlateAppTemplateModule>(FName("UnrealSlateAppTemplateModule"));
+	UnrealSlateAppTemplateModule.PluginButtonClicked();
 
 #if WITH_SHARED_POINTER_TESTS
 	SharedPointerTesting::TestSharedPointer<ESPMode::Fast>();
