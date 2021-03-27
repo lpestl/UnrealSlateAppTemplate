@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "UnrealSlateAppTemplateApp.h"
-#include "RequiredProgramMainCPPInclude.h"
+#include "Runtime/Launch/Public/RequiredProgramMainCPPInclude.h"
 #include "Widgets/Testing/STestSuite.h"
 #include "ISourceCodeAccessModule.h"
 #include "Widgets/Testing/SPerfSuite.h"
@@ -10,6 +10,7 @@
 #include "Framework/Application/SlateApplication.h"
 #include "IWebBrowserWindow.h"
 #include "IWebBrowserPopupFeatures.h"
+#include "ModuleManager.h"
 
 IMPLEMENT_APPLICATION(UnrealSlateAppTemplate, "UnrealSlateAppTemplate");
 

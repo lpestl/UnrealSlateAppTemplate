@@ -1,6 +1,10 @@
 # Visual Studio 2015 user specific files
 .vs/
 
+# Jet Brains products specific files and caches
+.idea/
+_ReSharper.Caches/
+
 # Compiled Object files
 *.slo
 *.lo
