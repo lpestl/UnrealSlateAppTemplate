@@ -17,32 +17,8 @@ public class UnrealSlateAppTemplate : ModuleRules
 				"Slate",
 				"SlateCore",
 				"StandaloneRenderer",
-				"SourceCodeAccess",
-				"WebBrowser",
 			}
 		);
-
-		PrivateIncludePathModuleNames.AddRange(
-			new string[] {
-				"SlateReflector",
-			}
-		);
-
-		DynamicallyLoadedModuleNames.AddRange(
-			new string[] {
-				"SlateReflector",
-			}
-		);
-
-		if (Target.Platform == UnrealTargetPlatform.Mac)
-		{
-			PrivateDependencyModuleNames.Add("XCodeSourceCodeAccess");
-			AddEngineThirdPartyPrivateStaticDependencies(Target, "CEF3");
-		}
-		else if (Target.Platform == UnrealTargetPlatform.Win64)
-		{
-			PrivateDependencyModuleNames.Add("VisualStudioSourceCodeAccess");
-		}
 
 		PrivateIncludePaths.Add("Runtime/Launch/Private");		// For LaunchEngineLoop.cpp include
 
