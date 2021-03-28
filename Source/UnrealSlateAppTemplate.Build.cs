@@ -6,16 +6,16 @@ public class UnrealSlateAppTemplate : ModuleRules
 {
 	public UnrealSlateAppTemplate(ReadOnlyTargetRules Target) : base(Target)
 	{
+		bEnforceIWYU = true;
+		bLegacyPublicIncludePaths = false;
+		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+
 		PublicIncludePaths.Add("Runtime/Launch/Public");
 
 		PrivateDependencyModuleNames.AddRange(
 			new string[] {
-				"AppFramework",
-				"Core",
-				"ApplicationCore",
 				"Projects",
 				"Slate",
-				"SlateCore",
 				"StandaloneRenderer",
 			}
 		);

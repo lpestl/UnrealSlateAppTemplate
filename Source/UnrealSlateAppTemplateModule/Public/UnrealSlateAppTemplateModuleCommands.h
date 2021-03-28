@@ -11,7 +11,7 @@ class FUnrealSlateAppTemplateModuleCommands : public TCommands<FUnrealSlateAppTe
 public:
 
 	FUnrealSlateAppTemplateModuleCommands()
-		: TCommands<FUnrealSlateAppTemplateModuleCommands>(TEXT("UnrealSlateAppTemplateModule"), NSLOCTEXT("Contexts", "UnrealSlateAppTemplateModule", "UnrealSlateAppTemplateModule Plugin"), NAME_None, FUnrealSlateAppTemplateModuleStyle::GetStyleSetName())
+		: TCommands<FUnrealSlateAppTemplateModuleCommands>(TEXT("UnrealSlateAppTemplateModule"), NSLOCTEXT("Contexts", "UnrealSlateAppTemplateModule", "UnrealSlateAppTemplateModule application"), NAME_None, FUnrealSlateAppTemplateModuleStyle::GetStyleSetName())
 	{
 	}
 
@@ -19,5 +19,5 @@ public:
 	virtual void RegisterCommands() override;
 
 public:
-	TSharedPtr< FUICommandInfo > OpenPluginWindow;
+	TSharedPtr< FUICommandInfo > OpenMainWindow;
 };

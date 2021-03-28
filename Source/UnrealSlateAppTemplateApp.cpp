@@ -35,7 +35,7 @@ int RunUnrealSlateAppTemplate( const TCHAR* CommandLine )
 
 	// launch the main window of the UnrealSlateAppTemplate module
 	FUnrealSlateAppTemplateModule& UnrealSlateAppTemplateModule = FModuleManager::LoadModuleChecked<FUnrealSlateAppTemplateModule>(FName("UnrealSlateAppTemplateModule"));
-	UnrealSlateAppTemplateModule.PluginButtonClicked();
+	UnrealSlateAppTemplateModule.AppStarted();
 	
 	// loop while the server does the rest
 	while (!IsEngineExitRequested())

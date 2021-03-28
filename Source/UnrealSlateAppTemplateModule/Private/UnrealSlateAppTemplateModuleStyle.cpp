@@ -3,7 +3,6 @@
 #include "UnrealSlateAppTemplateModule/Public/UnrealSlateAppTemplateModuleStyle.h"
 #include "Styling/SlateStyleRegistry.h"
 #include "Framework/Application/SlateApplication.h"
-#include "Interfaces/IPluginManager.h"
 
 TSharedPtr< FSlateStyleSet > FUnrealSlateAppTemplateModuleStyle::StyleInstance = NULL;
 
@@ -45,7 +44,7 @@ TSharedRef< FSlateStyleSet > FUnrealSlateAppTemplateModuleStyle::Create()
 
 	// TODO: Configure styles to interact with the resources folder
 	//Style->SetContentRoot(IPluginManager::Get().FindPlugin("UnrealSlateAppTemplateModule")->GetBaseDir() / TEXT("Resources"));	
-	//Style->Set("UnrealSlateAppTemplateModule.OpenPluginWindow", new IMAGE_BRUSH(TEXT("ButtonIcon_40x"), Icon40x40));
+	//Style->Set("UnrealSlateAppTemplateModule.OpenMainWindow", new IMAGE_BRUSH(TEXT("ButtonIcon_40x"), Icon40x40));
 
 	return Style;
 }

@@ -4,8 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "StandaloneRenderer.h"
-#include "Widgets/Docking/SDockTab.h"
-
 
 /**
  * Run the UnrealSlateAppTemplate .

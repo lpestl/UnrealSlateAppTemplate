@@ -4,8 +4,6 @@
 #include "UnrealSlateAppTemplateModule/Public/UnrealSlateAppTemplateModuleStyle.h"
 #include "UnrealSlateAppTemplateModule/Public/UnrealSlateAppTemplateModuleCommands.h"
 
-#include "UIAction.h"
-#include "UICommandList.h"
 #include "Widgets/Docking/SDockTab.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Text/STextBlock.h"
@@ -16,21 +14,21 @@ static const FName UnrealSlateAppTemplateModuleTabName("UnrealSlateAppTemplateMo
 
 void FUnrealSlateAppTemplateModule::StartupModule()
 {
-	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	// This code will execute after your module is loaded into memory; 
 	
 	FUnrealSlateAppTemplateModuleStyle::Initialize();
 	FUnrealSlateAppTemplateModuleStyle::ReloadTextures();
 
 	FUnrealSlateAppTemplateModuleCommands::Register();
 	
-	PluginCommands = MakeShareable(new FUICommandList);
+	AppCommands = MakeShareable(new FUICommandList);
 
-	PluginCommands->MapAction(
-		FUnrealSlateAppTemplateModuleCommands::Get().OpenPluginWindow,
-		FExecuteAction::CreateRaw(this, &FUnrealSlateAppTemplateModule::PluginButtonClicked),
+	AppCommands->MapAction(
+		FUnrealSlateAppTemplateModuleCommands::Get().OpenMainWindow,
+		FExecuteAction::CreateRaw(this, &FUnrealSlateAppTemplateModule::AppStarted),
 		FCanExecuteAction());
 		
-	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(UnrealSlateAppTemplateModuleTabName, FOnSpawnTab::CreateRaw(this, &FUnrealSlateAppTemplateModule::OnSpawnPluginTab))
+	FGlobalTabmanager::Get()->RegisterNomadTabSpawner(UnrealSlateAppTemplateModuleTabName, FOnSpawnTab::CreateRaw(this, &FUnrealSlateAppTemplateModule::OnSpawnMainTab))
 		.SetDisplayName(LOCTEXT("FUnrealSlateAppTemplateModuleTabTitle", "UnrealSlateAppTemplateModule"))
 		.SetMenuType(ETabSpawnerMenuType::Hidden);
 }
@@ -47,11 +45,11 @@ void FUnrealSlateAppTemplateModule::ShutdownModule()
 	FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(UnrealSlateAppTemplateModuleTabName);
 }
 
-TSharedRef<SDockTab> FUnrealSlateAppTemplateModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
+TSharedRef<SDockTab> FUnrealSlateAppTemplateModule::OnSpawnMainTab(const FSpawnTabArgs& SpawnTabArgs)
 {
 	FText WidgetText = FText::Format(
 		LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
-		FText::FromString(TEXT("FUnrealSlateAppTemplateModule::OnSpawnPluginTab")),
+		FText::FromString(TEXT("FUnrealSlateAppTemplateModule::OnSpawnMainTab")),
 		FText::FromString(TEXT("UnrealSlateAppTemplateModule.cpp"))
 		);
 
@@ -69,7 +67,7 @@ TSharedRef<SDockTab> FUnrealSlateAppTemplateModule::OnSpawnPluginTab(const FSpaw
 		];
 }
 
-void FUnrealSlateAppTemplateModule::PluginButtonClicked()
+void FUnrealSlateAppTemplateModule::AppStarted()
 {
 	FGlobalTabmanager::Get()->TryInvokeTab(UnrealSlateAppTemplateModuleTabName);
 }
