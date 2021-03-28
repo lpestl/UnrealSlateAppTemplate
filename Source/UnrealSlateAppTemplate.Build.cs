@@ -14,8 +14,12 @@ public class UnrealSlateAppTemplate : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(
 			new string[] {
+				"AppFramework",
+				"Core",
+				"ApplicationCore",
 				"Projects",
 				"Slate",
+				"SlateCore",
 				"StandaloneRenderer",
 			}
 		);
