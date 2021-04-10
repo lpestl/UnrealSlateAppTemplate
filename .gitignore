@@ -5,6 +5,8 @@
 .idea/
 _ReSharper.Caches/
 
+venv
+
 # Compiled Object files
 *.slo
 *.lo
