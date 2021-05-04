@@ -6,7 +6,7 @@
 
 void FUnrealSlateAppTemplateModuleCommands::RegisterCommands()
 {
-	UI_COMMAND(OpenMainWindow, "UnrealSlateAppTemplateModule", "Bring up UnrealSlateAppTemplateModule window", EUserInterfaceActionType::Button, FInputGesture());
+	UI_COMMAND(OpenMainWindow, "UnrealSlateAppTemplateModule", "Bring up UnrealSlateAppTemplateModule window", EUserInterfaceActionType::Button, FInputChord());
 }
 
 #undef LOCTEXT_NAMESPACE
