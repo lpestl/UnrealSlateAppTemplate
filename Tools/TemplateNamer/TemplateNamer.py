@@ -4,13 +4,23 @@
 
 import sys
 import getopt
+import re
 
 validate_name_error = 'The name entered must not include special characters or line separators. ' \
                       'Please choice another name and try again.'
 
 
 def is_valid_name(name):
-    return False
+    # Make own character set and pass
+    # this as argument in compile method
+    regex = re.compile('[@!"#$%^&*()<>?/\\\|}{~:]')
+
+    # Pass the string in search
+    # method of regex object.
+    if (regex.search(name) is None) and (not name.isspace()):
+        return True
+    raise Exception(f'[ERROR] The entered name "{name}" must not include special characters or line separators. '
+                    f'Please choice another name and try again.')
 
 
 def parse_args(argv):
@@ -34,10 +44,10 @@ def parse_args(argv):
             print(help_msg)
             sys.exit()
         if opt == '-n' or opt == '--name':
-            print(arg)
+            if arg.startswith('"') and arg.endswith('"'):
+                arg = arg[1:-1]
             if not is_valid_name(arg):
-                print(f'[ERROR] {validate_name_error}')
-                sys.exit(3)
+                raise Exception(f'[ERROR] "{arg}" - {validate_name_error}')
             project_name = arg
 
     return project_name, project_path
@@ -45,7 +55,7 @@ def parse_args(argv):
 
 def main(argv):
     name, path = parse_args(argv)
-    print(f'Generate {name} to {path}')
+    # print(f'Generate {name} to {path}')
 
 
 if __name__ == "__main__":
