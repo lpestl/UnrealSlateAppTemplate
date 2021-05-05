@@ -47,16 +47,16 @@ def parse_args(argv):
         sys.exit(3)
 
     if ('-i', '') in opts or ('--interactive', '') in opts:
-        input_str = input('Please enter a NAME for the new project:\n')
-        print(f'{input_str}\n')
+        input_str = input('<< Please enter a NAME for the new project:\n>> ')
+        # print(f'{input_str}\n')
         is_valid, error = is_valid_name(input_str)
         if not is_valid:
             print(f'[ERROR] {error}\n')
             sys.exit(3)
         project_name = input_str
 
-        input_str = input('Please enter the PATH for the new project:\n')
-        print(f'{input_str}\n')
+        input_str = input('<< Please enter the PATH for the new project:\n>> ')
+        # print(f'{input_str}\n')
         is_valid, error = is_valid_path(input_str)
         if not is_valid:
             print(f'[ERROR] {error}\n')
@@ -101,25 +101,41 @@ def read_src_and_write_dst_file(path, target_path, target_name):
     dst_file_name = get_dst_name_by_src_path(path, target_name)
     dst_path = os.path.join(target_path, dst_file_name)
 
-    with open(path, 'r') as src_file:
-        with open(dst_path, 'w') as dst_file:
-            src_content = src_file.read()
-            dst_content = src_content.replace(key_replacing_name, target_name)
-            dst_file.write(dst_content)
+    try:
+        with open(path, 'r') as src_file:
+            with open(dst_path, 'w') as dst_file:
+                src_content = src_file.read()
+                dst_content = src_content.replace(key_replacing_name, target_name)
+                dst_file.write(dst_content)
+    except:
+        print("F! Creation of the file %s failed" % dst_path)
+        return False
+    else:
+        print("F+ Successfully created the file %s " % dst_path)
+    return True
 
 
 def iterate_by_dir_content(dir_path, target_path, target_name):
     dst_dir_name = get_dst_name_by_src_path(dir_path, target_name)
     dst_path = os.path.join(target_path, dst_dir_name)
     if not os.path.exists(dst_path):
-        os.mkdir(dst_path)
+        try:
+            os.mkdir(dst_path)
+        except OSError:
+            print("D! Creation of the directory %s failed" % dst_path)
+            return False
+        else:
+            print("D+ Successfully created the directory %s " % dst_path)
 
     for item in os.listdir(dir_path):
         item_path = os.path.join(dir_path, item)
         if os.path.isdir(item_path):
-            iterate_by_dir_content(item_path, dst_path, target_name)
+            if not iterate_by_dir_content(item_path, dst_path, target_name):
+                return False
         else:
-            read_src_and_write_dst_file(item_path, dst_path, target_name)
+            if not read_src_and_write_dst_file(item_path, dst_path, target_name):
+                return False
+    return True
 
 
 def create_empty_slate_project(name, path):
@@ -127,20 +143,19 @@ def create_empty_slate_project(name, path):
     try:
         os.mkdir(target_root)
     except OSError:
-        print("Creation of the directory %s failed" % target_root)
+        print("D! Creation of the directory %s failed" % target_root)
         return False
     else:
-        print("Successfully created the directory %s " % target_root)
+        print("D+ Successfully created the directory %s " % target_root)
 
     # detect the current working directory and print it
     tool_path = os.getcwd()
     template_path = os.path.join(tool_path, "../../")
-    print("The template path is \"%s\"" % template_path)
 
-    iterate_by_dir_content(os.path.join(template_path, "Source"), target_root, name)
-    read_src_and_write_dst_file(os.path.join(template_path, f'{key_replacing_name}.uproject'), target_root, name)
+    is_success = iterate_by_dir_content(os.path.join(template_path, "Source"), target_root, name)
+    is_success &= read_src_and_write_dst_file(os.path.join(template_path, f'{key_replacing_name}.uproject'), target_root, name)
 
-    return True
+    return is_success
 
 
 def main(argv):
