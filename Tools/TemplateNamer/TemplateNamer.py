@@ -7,27 +7,26 @@ import getopt
 import re
 import os
 
-validate_name_error = 'The name entered must not include special characters or line separators. ' \
-                      'Please choice another name and try again.'
 
 key_replacing_name = 'UnrealSlateAppTemplate'
+
 
 def is_valid_name(name):
     # Make own character set and pass
     # this as argument in compile method
-    regex = re.compile('[@!"#$%^&*()<>?/\\\|}{~:]')
+    regex = re.compile('[@!"#$%^&*()<>?/\\\|\ }{~:]')
 
     # Pass the string in search
     # method of regex object.
     if (regex.search(name) is None) and (not name.isspace()):
-        return True
-    raise Exception(f'[ERROR] The entered name "{name}" must not include special characters or line separators. '
-                    f'Please choice another name and try again.')
+        return True, None
+    return False, f'The entered name "{name}" must not include special characters or line separators. ' \
+                  f'Please choice another name and try again.'
 
 
 def is_valid_path(path):
     if not os.path.exists(path):
-        return False, 'The specified path does not exist'
+        return False, f'The specified path "{path}" does not exist.'
     return True, None
 
 
@@ -41,28 +40,51 @@ def parse_args(argv):
                '[-h | --help]\n'
 
     try:
-        opts, args = getopt.getopt(argv, "hn:p:", ["name=", "path="])
+        opts, args = getopt.getopt(argv, "hn:p:i", ["name=", "path=", "interactive"])
     except getopt.GetoptError:
         print('Bad option(s)\n')
         print(help_msg)
-        sys.exit(2)
+        sys.exit(3)
+
+    if ('-i', '') in opts or ('--interactive', '') in opts:
+        input_str = input('Please enter a NAME for the new project:\n')
+        print(f'{input_str}\n')
+        is_valid, error = is_valid_name(input_str)
+        if not is_valid:
+            print(f'[ERROR] {error}\n')
+            sys.exit(3)
+        project_name = input_str
+
+        input_str = input('Please enter the PATH for the new project:\n')
+        print(f'{input_str}\n')
+        is_valid, error = is_valid_path(input_str)
+        if not is_valid:
+            print(f'[ERROR] {error}\n')
+            sys.exit(3)
+        project_path = input_str
+        return project_name, project_path
 
     for opt, arg in opts:
         if opt == '-h':
             print(help_msg)
             sys.exit()
+
         if opt == '-n' or opt == '--name':
             if arg.startswith('"') and arg.endswith('"'):
                 arg = arg[1:-1]
-            if not is_valid_name(arg):
-                raise Exception(f'[ERROR] "{arg}" - {validate_name_error}')
+            is_valid, error = is_valid_name(arg)
+            if not is_valid:
+                print(f'[ERROR] {error}\n')
+                sys.exit(3)
             project_name = arg
+
         if opt == '-p' or opt == '--path':
             if arg.startswith('"') and arg.endswith('"'):
                 arg = arg[1:-1]
             is_valid, error = is_valid_path(arg)
             if not is_valid:
-                raise Exception(f'[ERROR] "{arg}" - {error}')
+                print(f'[ERROR] {error}\n')
+                sys.exit(3)
             project_path = arg
 
     return project_name, project_path
