@@ -1,9 +1,15 @@
 # Visual Studio 2015 user specific files
 .vs/
 
+.vscode/
+.ignore
+*.code-workspace
+
 # Jet Brains products specific files and caches
 .idea/
 _ReSharper.Caches/
+
+venv
 
 # Compiled Object files
 *.slo

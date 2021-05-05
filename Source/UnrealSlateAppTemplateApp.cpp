@@ -31,7 +31,7 @@ int RunUnrealSlateAppTemplate( const TCHAR* CommandLine )
 	FSlateApplication::InitializeAsStandaloneApplication(GetStandardStandaloneRenderer());
 
 	// set the application name
-	FGlobalTabmanager::Get()->SetApplicationTitle(LOCTEXT("AppTitle", "Slate Viewer"));
+	FGlobalTabmanager::Get()->SetApplicationTitle(LOCTEXT("AppTitle", "UnrealSlateAppTemplate"));
 
 	// launch the main window of the UnrealSlateAppTemplate module
 	FUnrealSlateAppTemplateModule& UnrealSlateAppTemplateModule = FModuleManager::LoadModuleChecked<FUnrealSlateAppTemplateModule>(FName("UnrealSlateAppTemplateModule"));

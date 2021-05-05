@@ -1,5 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+using System.IO;
 using UnrealBuildTool;
 
 public class UnrealSlateAppTemplate : ModuleRules
@@ -10,7 +11,7 @@ public class UnrealSlateAppTemplate : ModuleRules
 		bLegacyPublicIncludePaths = false;
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicIncludePaths.Add("Runtime/Launch/Public");
+		PublicIncludePaths.Add(Path.Combine(EngineDirectory, "Source", "Runtime/Launch/Public"));
 
 		PrivateDependencyModuleNames.AddRange(
 			new string[] {
@@ -24,7 +25,7 @@ public class UnrealSlateAppTemplate : ModuleRules
 			}
 		);
 
-		PrivateIncludePaths.Add("Runtime/Launch/Private");		// For LaunchEngineLoop.cpp include
+		PrivateIncludePaths.Add(Path.Combine(EngineDirectory, "Source", "Runtime/Launch/Private"));		// For LaunchEngineLoop.cpp include
 
 		if (Target.Platform == UnrealTargetPlatform.IOS || Target.Platform == UnrealTargetPlatform.TVOS)
 		{
