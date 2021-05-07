@@ -9,6 +9,7 @@ if ! python3 -c 'import sys; assert sys.version_info >= (3,6)' > /dev/null; then
     exit 1
 fi
 
-python3 $BASEDIR/Tools/TemplateNamer/TemplateNamer.py -i
+cd $BASEDIR/Tools/TemplateNamer/
+python3 TemplateNamer.py -i
 
 echo "-----"
