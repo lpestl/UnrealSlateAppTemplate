@@ -5,6 +5,9 @@
 
 #include "Runtime/Launch/Public/RequiredProgramMainCPPInclude.h"
 #include "Framework/Application/SlateApplication.h"
+#include "Framework/Docking/TabManager.h"
+#include "Framework/Docking/WorkspaceItem.h"
+#include "Styling/StarshipCoreStyle.h"
 
 IMPLEMENT_APPLICATION(UnrealSlateAppTemplate, "UnrealSlateAppTemplate");
 
@@ -18,6 +21,8 @@ namespace WorkspaceMenu
 
 int RunUnrealSlateAppTemplate( const TCHAR* CommandLine )
 {
+	FTaskTagScope TaskTagScope(ETaskTag::EGameThread);
+
 	// start up the main loop
 	GEngineLoop.PreInit(CommandLine);
 
@@ -30,8 +35,11 @@ int RunUnrealSlateAppTemplate( const TCHAR* CommandLine )
 	// crank up a normal Slate application using the platform's standalone renderer
 	FSlateApplication::InitializeAsStandaloneApplication(GetStandardStandaloneRenderer());
 
+	FSlateApplication::InitHighDPI(true);
+
 	// set the application name
 	FGlobalTabmanager::Get()->SetApplicationTitle(LOCTEXT("AppTitle", "UnrealSlateAppTemplate"));
+	FAppStyle::SetAppStyleSetName(FStarshipCoreStyle::GetCoreStyle().GetStyleSetName());
 
 	// launch the main window of the UnrealSlateAppTemplate module
 	FUnrealSlateAppTemplateModule& UnrealSlateAppTemplateModule = FModuleManager::LoadModuleChecked<FUnrealSlateAppTemplateModule>(FName("UnrealSlateAppTemplateModule"));
@@ -40,18 +48,24 @@ int RunUnrealSlateAppTemplate( const TCHAR* CommandLine )
 	// loop while the server does the rest
 	while (!IsEngineExitRequested())
 	{
+		BeginExitIfRequested();
+
 		FTaskGraphInterface::Get().ProcessThreadUntilIdle(ENamedThreads::GameThread);
 		FStats::AdvanceFrame(false);
-		FTicker::GetCoreTicker().Tick(FApp::GetDeltaTime());
+		FTSTicker::GetCoreTicker().Tick(FApp::GetDeltaTime());
 		FSlateApplication::Get().PumpMessages();
-		FSlateApplication::Get().Tick();		
-		FPlatformProcess::Sleep(0);
+		FSlateApplication::Get().Tick();
+		FPlatformProcess::Sleep(0.01);
+
+		GFrameCounter++;
 	}
 
 	FCoreDelegates::OnExit.Broadcast();
 	FSlateApplication::Shutdown();
 	FModuleManager::Get().UnloadModulesAtShutdown();
 
+	GEngineLoop.AppPreExit();
+	GEngineLoop.AppExit();
 
 	return 0;
 }
