@@ -13,9 +13,10 @@ public class UnrealSlateAppTemplateTarget : TargetRules
 		LinkType = TargetLinkType.Monolithic;
 
 		LaunchModuleName = "UnrealSlateAppTemplate";
-		ExtraModuleNames.Add("EditorStyle");
-
-		bBuildDeveloperTools = false;
+		if (bBuildEditor)
+		{
+			ExtraModuleNames.Add("EditorStyle");
+		}
 
 		// UnrealSlateAppTemplate doesn't ever compile with the engine linked in
 		bCompileAgainstEngine = false;
