@@ -11,6 +11,8 @@ public class UnrealSlateAppTemplateTarget : TargetRules
 	{
 		Type = TargetType.Program;
 		LinkType = TargetLinkType.Monolithic;
+		DefaultBuildSettings = BuildSettingsVersion.Latest;
+		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
 
 		LaunchModuleName = "UnrealSlateAppTemplate";
 		if (bBuildEditor)
