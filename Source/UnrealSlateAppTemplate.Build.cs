@@ -7,10 +7,6 @@ public class UnrealSlateAppTemplate : ModuleRules
 {
 	public UnrealSlateAppTemplate(ReadOnlyTargetRules Target) : base(Target)
 	{
-		bEnforceIWYU = true;
-		bLegacyPublicIncludePaths = false;
-		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-
 		PublicIncludePaths.Add(Path.Combine(EngineDirectory, "Source", "Runtime/Launch/Public"));
 
 		PrivateDependencyModuleNames.AddRange(
