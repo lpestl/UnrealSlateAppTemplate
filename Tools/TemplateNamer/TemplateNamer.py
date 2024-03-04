@@ -4,24 +4,11 @@
 
 import sys
 import getopt
-import re
 import os
 
 
 key_replacing_name = 'UnrealSlateAppTemplate'
 
-
-def is_valid_name(name):
-    # Make own character set and pass
-    # this as argument in compile method
-    regex = re.compile('[@!"#$%^&*()<>?/\\\|\ }{~:]')
-
-    # Pass the string in search
-    # method of regex object.
-    if (regex.search(name) is None) and (not name.isspace()):
-        return True, None
-    return False, f'The entered name "{name}" must not include special characters or line separators. ' \
-                  f'Please choice another name and try again.'
 
 
 def is_valid_path(path):
@@ -49,10 +36,6 @@ def parse_args(argv):
     if ('-i', '') in opts or ('--interactive', '') in opts:
         input_str = input('<< Please enter a NAME for the new project:\n>> ')
         # print(f'{input_str}\n')
-        is_valid, error = is_valid_name(input_str)
-        if not is_valid:
-            print(f'[ERROR] {error}\n')
-            sys.exit(3)
         project_name = input_str
 
         input_str = input('<< Please enter the PATH for the new project:\n>> ')
@@ -72,10 +55,6 @@ def parse_args(argv):
         if opt == '-n' or opt == '--name':
             if arg.startswith('"') and arg.endswith('"'):
                 arg = arg[1:-1]
-            is_valid, error = is_valid_name(arg)
-            if not is_valid:
-                print(f'[ERROR] {error}\n')
-                sys.exit(3)
             project_name = arg
 
         if opt == '-p' or opt == '--path':
